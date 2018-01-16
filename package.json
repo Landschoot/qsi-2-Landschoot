@@ -9,14 +9,19 @@
     "start": "node build/index.js",
     "precommit": "lint-staged",
     "test": "jest --coverage",
-    "prettier":
-      "prettier --single-quote --trailing-comma \"es5\" --write \"./src/**/*.js\" ",
+    "prettier": "prettier --single-quote --trailing-comma \"es5\" --write \"./src/**/*.js\" ",
     "eslint": "eslint . --fix"
   },
   "lint-staged": {
     "linters": {
-      "*.{js,json}": ["npm run prettier", "git add"],
-      "*.js": ["npm run eslint", "git add"]
+      "*.{js,json}": [
+        "npm run prettier",
+        "git add"
+      ],
+      "*.js": [
+        "npm run eslint",
+        "git add"
+      ]
     },
     "concurrent": false
   },
@@ -24,7 +29,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com/miage-lille/api-design.git"
   },
-  "keywords": ["api"],
+  "keywords": [
+    "api"
+  ],
   "author": "thaessle",
   "license": "MIT",
   "bugs": {
@@ -58,6 +65,7 @@
     "pg": "^6.4.2",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.31.2",
+    "sqlite3": "^3.1.13",
     "winston": "^3.0.0-rc1"
   }
 }

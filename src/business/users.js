@@ -35,7 +35,7 @@ export function loginUser({ email, password }) {
             user.comparePassword(password),
           ])
         : Promise.reject(new Error('UNKOWN OR DELETED USER'))
-  );
+  ).then(users => users[0]);
 }
 
 export function getUser({ id }) {

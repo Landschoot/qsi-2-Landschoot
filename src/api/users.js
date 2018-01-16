@@ -7,7 +7,7 @@ export const apiUsers = express.Router();
 
 // http://apidocjs.com/#params
 /**
- * @api {post} /users User account creation
+ * @api {POST} /users User account creation
  * @apiVersion 1.0.0
  * @apiName createUser
  * @apiGroup Users
@@ -50,7 +50,7 @@ apiUsers.post(
 );
 
 /**
- * @api {post} /users/login User login
+ * @api {POST} /users/login User login
  * @apiVersion 1.0.0
  * @apiName loginUser
  * @apiGroup Users
@@ -91,6 +91,20 @@ apiUsers.post(
 );
 
 export const apiUsersProtected = express.Router();
+/**
+ * @api {GET} /users/login User login
+ * @apiVersion 1.0.0
+ * @apiName getUser
+ * @apiGroup Users
+ *
+ * @apiParam {STRING} email Email of the User.
+ * @apiParam {STRING} password  Password of the User.
+ *
+ * @apiSuccess {BOOLEAN} success Success.
+ * @apiSuccess {STRING} message Message.
+ * @apiSuccess {STRING} token JWT token.
+ * @apiSuccess {JSON} profile Profile informations about the User.
+ */
 apiUsersProtected.get('/', (req, res) =>
   res.status(200).send({
     success: true,

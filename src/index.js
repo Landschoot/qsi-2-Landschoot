@@ -4,9 +4,11 @@ import logger from './logger';
 
 const port = process.env.PORT || 5000;
 
+// connect to database
 db.sequelize
   .sync()
   .then(() =>
+    // start the api
     api.listen(
       port,
       err =>
