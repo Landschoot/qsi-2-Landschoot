@@ -1,10 +1,14 @@
 import express from 'express';
 import jwt from 'jwt-simple';
-import { createUser, loginUser } from '../business/users';
+import {
+  createUser,
+  loginUser,
+  updateUser,
+  deleteUser,
+} from '../business/users';
 import logger from '../logger';
 
 export const apiUsers = express.Router();
-
 // http://apidocjs.com/#params
 /**
  * @api {POST} /users User account creation
@@ -111,4 +115,61 @@ apiUsersProtected.get('/', (req, res) =>
     profile: req.user,
     message: 'user logged in',
   })
+);
+
+/**
+ * @api {PUT} /users User account update
+ * @apiVersion 1.0.0
+ * @apiName updateUser
+ * @apiGroup Users
+ *
+ * @apiParam {STRING} password  Password of the User.
+ * @apiParam {STRING} [firstName] First name of the User.
+ * @apiParam {STRING} [lastName] Last name of the User.
+ *
+ * @apiSuccess {BOOLEAN} success Success.
+ * @apiSuccess {STRING} message Message.
+ * @apiSuccess {JSON} profile Profile informations about the User.
+ */
+apiUsersProtected.put(
+  '/',
+  (req, res) =>
+    !req.body.password
+      ? res.status(400).send({
+          success: false,
+          message: 'email is required',
+        })
+      : updateUser(req.user, req.body)
+          .then(user =>
+            res.status(200).send({
+              success: true,
+              profile: user,
+              message: 'user updated',
+            })
+          )
+          .catch(err => {
+            logger.error(`💥 Failed to update user : ${err.stack}`);
+            return res.status(500).send({
+              success: false,
+              message: `${err.name} : ${err.message}`,
+            });
+          })
+);
+
+/**
+ * @api {DELETE} /users User account delete
+ * @apiVersion 1.0.0
+ * @apiName deleteUser
+ * @apiGroup Users
+ */
+apiUsersProtected.delete('/', (req, res) =>
+  deleteUser(req.user)
+    .then(() => res.status(204).send())
+    .catch(err => {
+      logger.error(`💥 Failed to delete user : ${err.stack}`);
+      return res.status(500).send({
+        success: false,
+        message: `${err.name} : ${err.message}`,
+      });
+    })
 );
