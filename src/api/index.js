@@ -1,10 +1,16 @@
 import express from 'express';
 import { apiUsers, apiUsersProtected } from './users';
 import { isAuthenticated, initAuth } from '../business/auth';
+import helmet from 'helmet';
+import hpp from 'hpp';
 
 const api = express();
 initAuth();
 api.use(express.json({ limit: '1mb' }));
+
+// secure api
+api.use(helmet());
+api.use(hpp());
 
 const apiRoutes = express.Router();
 apiRoutes

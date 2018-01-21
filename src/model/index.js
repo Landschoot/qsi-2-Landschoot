@@ -5,6 +5,7 @@ import fs from 'fs';
 const db = {};
 const basename = path.basename(module.filename);
 
+// connect to database
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 fs
   .readdirSync(__dirname)
